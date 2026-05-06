@@ -3,9 +3,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### Local reference projects ###
-example/
-
 ### Environment / secrets ###
 .env
 .env.*
