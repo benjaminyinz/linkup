@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    # 开发环境默认连接本机 PostgreSQL，可通过环境变量覆盖
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/linkup_db?currentSchema=public&reWriteBatchedInserts=true}
+    username: ${DB_USERNAME:linkup}
+    password: ${DB_PASSWORD:your_password_here}
+
+# 开发环境打印 SQL，方便本地排查 Mapper 和参数问题
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+linkup:
+  jwt:
+    # 开发环境默认密钥只用于本地启动项目，生产环境不要使用这个值
+    secret: ${JWT_SECRET:dev-only-linkup-jwt-secret-please-change-123456}

@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    # 生产环境必须通过环境变量注入数据库连接信息，避免把账号密码写进代码仓库
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    druid:
+      initial-size: ${DB_POOL_INITIAL_SIZE:5}
+      min-idle: ${DB_POOL_MIN_IDLE:5}
+      max-active: ${DB_POOL_MAX_ACTIVE:30}
+      max-wait: ${DB_POOL_MAX_WAIT:60000}
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+# 生产环境不在控制台打印 SQL，避免日志过大和敏感信息泄露
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+linkup:
+  jwt:
+    # 生产环境必须通过环境变量注入 JWT_SECRET，不能把真实密钥提交到代码仓库
+    secret: ${JWT_SECRET}

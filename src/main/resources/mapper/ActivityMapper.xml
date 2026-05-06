@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkup.activity.mapper.ActivityMapper">
+
+    <resultMap id="BaseResultMap" type="com.linkup.activity.entity.Activity">
+            <id property="id" column="id" jdbcType="OTHER"/>
+            <result property="hostId" column="host_id" jdbcType="OTHER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="emoji" column="emoji" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="categoryLabel" column="category_label" jdbcType="VARCHAR"/>
+            <result property="styleKey" column="style_key" jdbcType="VARCHAR"/>
+            <result property="eventDate" column="event_date" jdbcType="DATE"/>
+            <result property="startTime" column="start_time" jdbcType="TIME"/>
+            <result property="locationName" column="location_name" jdbcType="VARCHAR"/>
+            <result property="locationDetail" column="location_detail" jdbcType="VARCHAR"/>
+            <result property="latitude" column="latitude" jdbcType="NUMERIC"/>
+            <result property="longitude" column="longitude" jdbcType="NUMERIC"/>
+            <result property="maxParticipants" column="max_participants" jdbcType="INTEGER"/>
+            <result property="currentParticipants" column="current_participants" jdbcType="INTEGER"/>
+            <result property="feeType" column="fee_type" jdbcType="OTHER"
+                    typeHandler="com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler"/>
+            <result property="price" column="price" jdbcType="INTEGER"/>
+            <result property="feeDetail" column="fee_detail" jdbcType="VARCHAR"/>
+            <result property="ctaText" column="cta_text" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="OTHER"
+                    typeHandler="com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler"/>
+            <result property="firebaseConversationId" column="firebase_conversation_id" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,host_id,title,
+        emoji,description,category_label,
+        style_key,event_date,start_time,
+        location_name,location_detail,latitude,
+        longitude,max_participants,current_participants,
+        fee_type,price,fee_detail,
+        cta_text,status,firebase_conversation_id,
+        created_at,updated_at
+    </sql>
+</mapper>
+
+

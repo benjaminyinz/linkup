@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkup.account.user.mapper.AppUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.linkup.account.user.entity.AppUser">
+            <id property="id" column="id" jdbcType="OTHER"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="signature" column="signature" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="OTHER"
+                    typeHandler="com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler"/>
+            <result property="level" column="level" jdbcType="SMALLINT"/>
+            <result property="levelPoints" column="level_points" jdbcType="INTEGER"/>
+            <result property="joinedActivityCount" column="joined_activity_count" jdbcType="INTEGER"/>
+            <result property="inviteCode" column="invite_code" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,nickname,avatar_url,
+        phone,email,signature,
+        gender,level,level_points,
+        joined_activity_count,invite_code,created_at,
+        updated_at
+    </sql>
+</mapper>
+
+

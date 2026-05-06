@@ -1,0 +1,51 @@
+server:
+  port: ${SERVER_PORT:8080} # 后端服务端口，默认 8080
+
+spring:
+  application:
+    name: linkup
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev} # 默认启动开发环境配置
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+
+  # 开启 Java 21 虚拟线程，提升高并发场景下的线程调度效率
+  threads:
+    virtual:
+      enabled: true
+
+# MyBatis-Plus 公共配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml # XML 映射文件位置
+  type-aliases-package: >
+    com.linkup.activity.entity,
+    com.linkup.account.auth.entity,
+    com.linkup.finance.bank.entity,
+    com.linkup.commerce.deal.entity,
+    com.linkup.growth.invite.entity,
+    com.linkup.commerce.merchant.entity,
+    com.linkup.commerce.order.entity,
+    com.linkup.account.user.entity,
+    com.linkup.growth.voucher.entity,
+    com.linkup.finance.wallet.entity
+  configuration:
+    map-underscore-to-camel-case: true # 自动将下划线字段映射为驼峰属性
+
+# LinkUp 项目自定义配置
+linkup:
+  jwt:
+    issuer: ${JWT_ISSUER:linkup} # JWT 签发方，用来标识 token 是 LinkUp 后端签发的
+    access-token-expiration-minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES:43200} # access token 有效期，默认 30 天
+
+# Knife4j / OpenAPI 接口文档配置
+knife4j:
+  enable: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

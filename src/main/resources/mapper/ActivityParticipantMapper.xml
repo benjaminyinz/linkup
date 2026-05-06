@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkup.activity.mapper.ActivityParticipantMapper">
+
+    <resultMap id="BaseResultMap" type="com.linkup.activity.entity.ActivityParticipant">
+            <id property="id" column="id" jdbcType="OTHER"/>
+            <result property="activityId" column="activity_id" jdbcType="OTHER"/>
+            <result property="userId" column="user_id" jdbcType="OTHER"/>
+            <result property="status" column="status" jdbcType="OTHER"/>
+            <result property="registrationCode" column="registration_code" jdbcType="VARCHAR"/>
+            <result property="paymentReference" column="payment_reference" jdbcType="VARCHAR"/>
+            <result property="paymentStatus" column="payment_status" jdbcType="OTHER"/>
+            <result property="amountPaid" column="amount_paid" jdbcType="INTEGER"/>
+            <result property="joinedAt" column="joined_at" jdbcType="TIMESTAMP"/>
+            <result property="cancelledAt" column="cancelled_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,activity_id,user_id,
+        status,registration_code,payment_reference,
+        payment_status,amount_paid,joined_at,
+        cancelled_at
+    </sql>
+</mapper>
+
+
