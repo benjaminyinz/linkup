@@ -1,69 +1,36 @@
 package com.linkup.activity.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName activity_image
+ * 活动图片。
+ *
+ * <p>对应数据库表 activity_image。
+ * sort_order = 0 约定为封面图。</p>
  */
-@TableName(value ="activity_image")
+@Data
+@TableName(value = "activity_image", autoResultMap = true)
 public class ActivityImage implements Serializable {
-    private Object id;
 
-    private Object activityId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
+
+    private UUID activityId;
 
     private String s3Url;
 
     private Integer sortOrder;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Object activityId) {
-        this.activityId = activityId;
-    }
-
-    public String getS3Url() {
-        return s3Url;
-    }
-
-    public void setS3Url(String s3Url) {
-        this.s3Url = s3Url;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-

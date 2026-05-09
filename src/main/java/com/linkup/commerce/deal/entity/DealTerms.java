@@ -1,58 +1,29 @@
 package com.linkup.commerce.deal.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName deal_terms
+ * 团购使用须知条目。
+ *
+ * <p>对应数据库表 deal_terms。</p>
  */
-@TableName(value ="deal_terms")
+@Data
+@TableName(value = "deal_terms", autoResultMap = true)
 public class DealTerms implements Serializable {
-    private Object id;
 
-    private Object dealId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
+
+    private UUID dealId;
 
     private String content;
 
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getDealId() {
-        return dealId;
-    }
-
-    public void setDealId(Object dealId) {
-        this.dealId = dealId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
 }
-
-
-

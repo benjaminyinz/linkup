@@ -1,22 +1,32 @@
 package com.linkup.activity.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.activity.enums.PayoutStatus;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName activity_payout
+ * 活动打款记录。
+ *
+ * <p>对应数据库表 activity_payout。</p>
  */
-@TableName(value ="activity_payout")
+@Data
+@TableName(value = "activity_payout", autoResultMap = true)
 public class ActivityPayout implements Serializable {
-    private Object id;
 
-    private Object activityId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
-    private Object hostId;
+    private UUID activityId;
+
+    private UUID hostId;
 
     private Integer totalAmount;
 
@@ -24,96 +34,15 @@ public class ActivityPayout implements Serializable {
 
     private Integer payoutAmount;
 
-    private Object status;
+    @TableField(value = "status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private PayoutStatus status;
 
     private String note;
 
-    private Date processedAt;
+    private OffsetDateTime processedAt;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Object activityId) {
-        this.activityId = activityId;
-    }
-
-    public Object getHostId() {
-        return hostId;
-    }
-
-    public void setHostId(Object hostId) {
-        this.hostId = hostId;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Integer totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public Integer getPlatformFee() {
-        return platformFee;
-    }
-
-    public void setPlatformFee(Integer platformFee) {
-        this.platformFee = platformFee;
-    }
-
-    public Integer getPayoutAmount() {
-        return payoutAmount;
-    }
-
-    public void setPayoutAmount(Integer payoutAmount) {
-        this.payoutAmount = payoutAmount;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public Date getProcessedAt() {
-        return processedAt;
-    }
-
-    public void setProcessedAt(Date processedAt) {
-        this.processedAt = processedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-

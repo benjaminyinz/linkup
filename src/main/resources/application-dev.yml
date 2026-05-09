@@ -2,8 +2,8 @@ spring:
   datasource:
     # 开发环境默认连接本机 PostgreSQL，可通过环境变量覆盖
     url: ${DB_URL:jdbc:postgresql://localhost:5432/linkup_db?currentSchema=public&reWriteBatchedInserts=true}
-    username: ${DB_USERNAME:linkup}
-    password: ${DB_PASSWORD:your_password_here}
+    username: ${DB_USERNAME:ben}
+    password: ${DB_PASSWORD:197680}
 
 # 开发环境打印 SQL，方便本地排查 Mapper 和参数问题
 mybatis-plus:

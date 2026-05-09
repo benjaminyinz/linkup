@@ -32,7 +32,7 @@ public class UserQueryServiceImpl implements UserQueryService {
         }
 
         return new UserBasicInfoDTO(
-                toUuid(appUser.getId()),
+                appUser.getId(),
                 appUser.getEmail(),
                 appUser.getNickname(),
                 appUser.getLevel(),
@@ -68,11 +68,11 @@ public class UserQueryServiceImpl implements UserQueryService {
         Integer joinedActivityCount = defaultInt(appUser.getJoinedActivityCount());
 
         return UserProfileVO.builder()
-                .id(toUuid(appUser.getId()))
+                .id(appUser.getId())
                 .nickname(appUser.getNickname())
                 .avatarUrl(appUser.getAvatarUrl())
                 .email(appUser.getEmail())
-                .gender(toText(appUser.getGender()))
+                .gender(appUser.getGender() == null ? null : appUser.getGender().getValue())
                 .signature(appUser.getSignature())
                 .level(defaultInt(appUser.getLevel(), 1))
                 .levelPoints(defaultInt(appUser.getLevelPoints()))
@@ -147,20 +147,6 @@ public class UserQueryServiceImpl implements UserQueryService {
                         .privileges(List.of("主理人专属福利包", "活动优先曝光"))
                         .build()
         );
-    }
-
-    private UUID toUuid(Object value) {
-        if (value instanceof UUID uuid) {
-            return uuid;
-        }
-        return UUID.fromString(String.valueOf(value));
-    }
-
-    private String toText(Object value) {
-        if (value == null) {
-            return null;
-        }
-        return String.valueOf(value);
     }
 
     private Integer defaultInt(Integer value) {

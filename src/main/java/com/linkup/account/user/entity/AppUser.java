@@ -1,5 +1,6 @@
 package com.linkup.account.user.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,14 +8,21 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.linkup.account.user.enums.GenderType;
 import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName app_user
+ * 用户主表。
+ *
+ * <p>对应数据库表 app_user，避开 PostgreSQL 保留字 user。</p>
  */
+@Data
 @TableName(value = "app_user", autoResultMap = true)
 public class AppUser implements Serializable {
-    private Object id;
+
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
     private String nickname;
 
@@ -37,116 +45,11 @@ public class AppUser implements Serializable {
 
     private String inviteCode;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
-    private Date updatedAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private OffsetDateTime updatedAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public GenderType getGender() {
-        return gender;
-    }
-
-    public void setGender(GenderType gender) {
-        this.gender = gender;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Integer getLevelPoints() {
-        return levelPoints;
-    }
-
-    public void setLevelPoints(Integer levelPoints) {
-        this.levelPoints = levelPoints;
-    }
-
-    public Integer getJoinedActivityCount() {
-        return joinedActivityCount;
-    }
-
-    public void setJoinedActivityCount(Integer joinedActivityCount) {
-        this.joinedActivityCount = joinedActivityCount;
-    }
-
-    public String getInviteCode() {
-        return inviteCode;
-    }
-
-    public void setInviteCode(String inviteCode) {
-        this.inviteCode = inviteCode;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
-
-
-

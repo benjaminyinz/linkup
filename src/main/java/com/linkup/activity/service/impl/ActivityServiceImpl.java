@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linkup.activity.dto.ActivityPageQueryDTO;
 import com.linkup.activity.entity.Activity;
 import com.linkup.activity.entity.ActivityImage;
+import com.linkup.activity.enums.ActivityFeeType;
+import com.linkup.activity.enums.ActivityStatus;
 import com.linkup.activity.mapper.ActivityImageMapper;
 import com.linkup.activity.mapper.ActivityMapper;
 import com.linkup.activity.service.ActivityService;
@@ -15,12 +17,9 @@ import com.linkup.activity.vo.ActivityDetailVO;
 import com.linkup.common.exception.BusinessException;
 import com.linkup.common.result.PageResult;
 import com.linkup.common.result.ResultCodeEnum;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +34,6 @@ import org.springframework.util.StringUtils;
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     implements ActivityService {
-
-    private static final ZoneId PROJECT_ZONE_ID = ZoneId.of("Pacific/Auckland");
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -58,7 +55,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         Map<UUID, String> coverImageMap = getCoverImageMap(activities);
 
         List<ActivityCardVO> records = activities.stream()
-                .map(activity -> toCardVO(activity, coverImageMap.get(toUuid(activity.getId()))))
+                .map(activity -> toCardVO(activity, coverImageMap.get(activity.getId())))
                 .toList();
 
         return PageResult.<ActivityCardVO>builder()
@@ -91,10 +88,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
             wrapper.eq(Activity::getCategoryLabel, queryDTO.getCategoryLabel().trim());
         }
         if (queryDTO.getDateFrom() != null) {
-            wrapper.ge(Activity::getEventDate, java.sql.Date.valueOf(queryDTO.getDateFrom()));
+            wrapper.ge(Activity::getEventDate, queryDTO.getDateFrom());
         }
         if (queryDTO.getDateTo() != null) {
-            wrapper.le(Activity::getEventDate, java.sql.Date.valueOf(queryDTO.getDateTo()));
+            wrapper.le(Activity::getEventDate, queryDTO.getDateTo());
         }
 
         wrapper.orderByAsc(Activity::getEventDate)
@@ -114,7 +111,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
             return Map.of();
         }
 
-        List<Object> activityIds = activities.stream()
+        List<UUID> activityIds = activities.stream()
                 .map(Activity::getId)
                 .toList();
 
@@ -125,7 +122,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
         return images.stream()
                 .collect(Collectors.toMap(
-                        image -> toUuid(image.getActivityId()),
+                        ActivityImage::getActivityId,
                         ActivityImage::getS3Url,
                         (first, ignored) -> first,
                         LinkedHashMap::new
@@ -134,8 +131,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     private ActivityCardVO toCardVO(Activity activity, String coverImageUrl) {
         return ActivityCardVO.builder()
-                .id(toUuid(activity.getId()))
-                .hostId(toUuid(activity.getHostId()))
+                .id(activity.getId())
+                .hostId(activity.getHostId())
                 .title(activity.getTitle())
                 .emoji(activity.getEmoji())
                 .description(activity.getDescription())
@@ -149,19 +146,19 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                 .longitude(activity.getLongitude())
                 .maxParticipants(activity.getMaxParticipants())
                 .currentParticipants(activity.getCurrentParticipants())
-                .feeType(toText(activity.getFeeType()))
+                .feeType(toValue(activity.getFeeType()))
                 .price(activity.getPrice())
                 .feeDetail(activity.getFeeDetail())
                 .ctaText(activity.getCtaText())
-                .status(toText(activity.getStatus()))
+                .status(toValue(activity.getStatus()))
                 .coverImageUrl(coverImageUrl)
                 .build();
     }
 
     private ActivityDetailVO toDetailVO(Activity activity, List<ActivityImage> images) {
         return ActivityDetailVO.builder()
-                .id(toUuid(activity.getId()))
-                .hostId(toUuid(activity.getHostId()))
+                .id(activity.getId())
+                .hostId(activity.getHostId())
                 .title(activity.getTitle())
                 .emoji(activity.getEmoji())
                 .description(activity.getDescription())
@@ -175,11 +172,11 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                 .longitude(activity.getLongitude())
                 .maxParticipants(activity.getMaxParticipants())
                 .currentParticipants(activity.getCurrentParticipants())
-                .feeType(toText(activity.getFeeType()))
+                .feeType(toValue(activity.getFeeType()))
                 .price(activity.getPrice())
                 .feeDetail(activity.getFeeDetail())
                 .ctaText(activity.getCtaText())
-                .status(toText(activity.getStatus()))
+                .status(toValue(activity.getStatus()))
                 .firebaseConversationId(activity.getFirebaseConversationId())
                 .images(images.stream()
                         .map(this::toImageVO)
@@ -189,7 +186,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     private ActivityDetailVO.Image toImageVO(ActivityImage image) {
         return ActivityDetailVO.Image.builder()
-                .id(toUuid(image.getId()))
+                .id(image.getId())
                 .url(image.getS3Url())
                 .sortOrder(image.getSortOrder())
                 .build();
@@ -202,48 +199,19 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                 .orderByAsc(ActivityImage::getCreatedAt));
     }
 
-    private UUID toUuid(Object value) {
-        if (value instanceof UUID uuid) {
-            return uuid;
-        }
-        return UUID.fromString(String.valueOf(value));
+    private String toValue(ActivityFeeType feeType) {
+        return feeType == null ? null : feeType.getValue();
     }
 
-    private String toText(Object value) {
-        if (value == null) {
-            return null;
-        }
-        return String.valueOf(value);
+    private String toValue(ActivityStatus status) {
+        return status == null ? null : status.getValue();
     }
 
-    private String formatDate(Date date) {
-        if (date == null) {
-            return null;
-        }
-        if (date instanceof java.sql.Date sqlDate) {
-            return sqlDate.toLocalDate().format(DATE_FORMATTER);
-        }
-        LocalDate localDate = date.toInstant().atZone(PROJECT_ZONE_ID).toLocalDate();
-        return localDate.format(DATE_FORMATTER);
+    private String formatDate(LocalDate date) {
+        return date == null ? null : date.format(DATE_FORMATTER);
     }
 
-    private String formatTime(Date time) {
-        if (time == null) {
-            return null;
-        }
-        if (time instanceof Time sqlTime) {
-            return sqlTime.toLocalTime().format(TIME_FORMATTER);
-        }
-        LocalTime localTime = time.toInstant().atZone(PROJECT_ZONE_ID).toLocalTime();
-        return localTime.format(TIME_FORMATTER);
+    private String formatTime(LocalTime time) {
+        return time == null ? null : time.format(TIME_FORMATTER);
     }
-
 }
-
-
-
-
-
-
-
-

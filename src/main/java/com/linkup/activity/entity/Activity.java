@@ -1,5 +1,6 @@
 package com.linkup.activity.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,16 +10,25 @@ import com.linkup.activity.enums.ActivityStatus;
 import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName activity
+ * 找搭子活动。
+ *
+ * <p>对应数据库表 activity。</p>
  */
+@Data
 @TableName(value = "activity", autoResultMap = true)
 public class Activity implements Serializable {
-    private Object id;
 
-    private Object hostId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
+
+    private UUID hostId;
 
     private String title;
 
@@ -30,9 +40,10 @@ public class Activity implements Serializable {
 
     private String styleKey;
 
-    private Date eventDate;
+    private LocalDate eventDate;
 
-    private Date startTime;
+    /** NZ 本地时间，无时区。 */
+    private LocalTime startTime;
 
     private String locationName;
 
@@ -60,196 +71,11 @@ public class Activity implements Serializable {
 
     private String firebaseConversationId;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
-    private Date updatedAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private OffsetDateTime updatedAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getHostId() {
-        return hostId;
-    }
-
-    public void setHostId(Object hostId) {
-        this.hostId = hostId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getEmoji() {
-        return emoji;
-    }
-
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCategoryLabel() {
-        return categoryLabel;
-    }
-
-    public void setCategoryLabel(String categoryLabel) {
-        this.categoryLabel = categoryLabel;
-    }
-
-    public String getStyleKey() {
-        return styleKey;
-    }
-
-    public void setStyleKey(String styleKey) {
-        this.styleKey = styleKey;
-    }
-
-    public Date getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public String getLocationDetail() {
-        return locationDetail;
-    }
-
-    public void setLocationDetail(String locationDetail) {
-        this.locationDetail = locationDetail;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    public void setMaxParticipants(Integer maxParticipants) {
-        this.maxParticipants = maxParticipants;
-    }
-
-    public Integer getCurrentParticipants() {
-        return currentParticipants;
-    }
-
-    public void setCurrentParticipants(Integer currentParticipants) {
-        this.currentParticipants = currentParticipants;
-    }
-
-    public ActivityFeeType getFeeType() {
-        return feeType;
-    }
-
-    public void setFeeType(ActivityFeeType feeType) {
-        this.feeType = feeType;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getFeeDetail() {
-        return feeDetail;
-    }
-
-    public void setFeeDetail(String feeDetail) {
-        this.feeDetail = feeDetail;
-    }
-
-    public String getCtaText() {
-        return ctaText;
-    }
-
-    public void setCtaText(String ctaText) {
-        this.ctaText = ctaText;
-    }
-
-    public ActivityStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ActivityStatus status) {
-        this.status = status;
-    }
-
-    public String getFirebaseConversationId() {
-        return firebaseConversationId;
-    }
-
-    public void setFirebaseConversationId(String firebaseConversationId) {
-        this.firebaseConversationId = firebaseConversationId;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
-
-
-

@@ -1,18 +1,26 @@
 package com.linkup.commerce.merchant.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName merchant
+ * 团购商家。
+ *
+ * <p>对应数据库表 merchant。</p>
  */
-@TableName(value ="merchant")
+@Data
+@TableName(value = "merchant", autoResultMap = true)
 public class Merchant implements Serializable {
-    private Object id;
+
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
     private String name;
 
@@ -22,68 +30,11 @@ public class Merchant implements Serializable {
 
     private String hours;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
-    private Date updatedAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private OffsetDateTime updatedAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getHours() {
-        return hours;
-    }
-
-    public void setHours(String hours) {
-        this.hours = hours;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
-
-
-

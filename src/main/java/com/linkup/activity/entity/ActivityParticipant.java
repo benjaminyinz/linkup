@@ -1,119 +1,50 @@
 package com.linkup.activity.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.activity.enums.ParticipantStatus;
+import com.linkup.commerce.order.enums.PaymentStatus;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName activity_participant
+ * 活动参与记录。
+ *
+ * <p>对应数据库表 activity_participant。</p>
  */
-@TableName(value ="activity_participant")
+@Data
+@TableName(value = "activity_participant", autoResultMap = true)
 public class ActivityParticipant implements Serializable {
-    private Object id;
 
-    private Object activityId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
-    private Object userId;
+    private UUID activityId;
 
-    private Object status;
+    private UUID userId;
+
+    @TableField(value = "status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private ParticipantStatus status;
 
     private String registrationCode;
 
     private String paymentReference;
 
-    private Object paymentStatus;
+    @TableField(value = "payment_status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private PaymentStatus paymentStatus;
 
     private Integer amountPaid;
 
-    private Date joinedAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime joinedAt;
 
-    private Date cancelledAt;
+    private OffsetDateTime cancelledAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Object activityId) {
-        this.activityId = activityId;
-    }
-
-    public Object getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Object userId) {
-        this.userId = userId;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public String getRegistrationCode() {
-        return registrationCode;
-    }
-
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
-    }
-
-    public String getPaymentReference() {
-        return paymentReference;
-    }
-
-    public void setPaymentReference(String paymentReference) {
-        this.paymentReference = paymentReference;
-    }
-
-    public Object getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(Object paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public Integer getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(Integer amountPaid) {
-        this.amountPaid = amountPaid;
-    }
-
-    public Date getJoinedAt() {
-        return joinedAt;
-    }
-
-    public void setJoinedAt(Date joinedAt) {
-        this.joinedAt = joinedAt;
-    }
-
-    public Date getCancelledAt() {
-        return cancelledAt;
-    }
-
-    public void setCancelledAt(Date cancelledAt) {
-        this.cancelledAt = cancelledAt;
-    }
 }
-
-
-

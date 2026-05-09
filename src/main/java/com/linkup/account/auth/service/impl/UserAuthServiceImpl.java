@@ -111,7 +111,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth>
             throw new BusinessException(ResultCodeEnum.EMAIL_OR_PASSWORD_ERROR);
         }
 
-        UUID userId = toUuid(userAuth.getUserId());
+        UUID userId = userAuth.getUserId();
         UserBasicInfoDTO userBasicInfo = userQueryService.getBasicInfo(userId);
         if (userBasicInfo == null) {
             throw new BusinessException(ResultCodeEnum.RESOURCE_NOT_FOUND, "用户不存在");
@@ -154,14 +154,6 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth>
     private String normalizeEmail(String email) {
         return email.trim().toLowerCase(Locale.ROOT);
     }
-
-    private UUID toUuid(Object value) {
-        if (value instanceof UUID uuid) {
-            return uuid;
-        }
-        return UUID.fromString(String.valueOf(value));
-    }
-
 }
 
 

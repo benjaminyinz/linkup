@@ -1,22 +1,34 @@
 package com.linkup.commerce.order.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.commerce.order.enums.PaymentStatus;
+import com.linkup.commerce.order.enums.RedeemStatus;
+import com.linkup.commerce.order.enums.RefundStatus;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName app_order
+ * 团购订单。
+ *
+ * <p>对应数据库表 app_order，避开 PostgreSQL 保留字 order。</p>
  */
-@TableName(value ="app_order")
+@Data
+@TableName(value = "app_order", autoResultMap = true)
 public class AppOrder implements Serializable {
-    private Object id;
 
-    private Object userId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
-    private Object dealId;
+    private UUID userId;
+
+    private UUID dealId;
 
     private String orderNo;
 
@@ -26,15 +38,18 @@ public class AppOrder implements Serializable {
 
     private String paymentReference;
 
-    private Object paymentStatus;
+    @TableField(value = "payment_status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private PaymentStatus paymentStatus;
 
     private String redeemCode;
 
-    private Object redeemStatus;
+    @TableField(value = "redeem_status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private RedeemStatus redeemStatus;
 
-    private Date redeemedAt;
+    private OffsetDateTime redeemedAt;
 
-    private Object refundStatus;
+    @TableField(value = "refund_status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private RefundStatus refundStatus;
 
     private String refundReason;
 
@@ -44,166 +59,17 @@ public class AppOrder implements Serializable {
 
     private String usageRule;
 
-    private Object packageSnapshot;
+    /**
+     * 购买时固化的套餐快照，对应 PG JSONB 列。
+     *
+     * <p>读出来是 JSON 文本；后续若要做结构化访问，再切到 JacksonTypeHandler / 自定义 POJO。</p>
+     */
+    private String packageSnapshot;
 
-    private Date expiresAt;
+    private OffsetDateTime expiresAt;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Object userId) {
-        this.userId = userId;
-    }
-
-    public Object getDealId() {
-        return dealId;
-    }
-
-    public void setDealId(Object dealId) {
-        this.dealId = dealId;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public String getPaymentNo() {
-        return paymentNo;
-    }
-
-    public void setPaymentNo(String paymentNo) {
-        this.paymentNo = paymentNo;
-    }
-
-    public Integer getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(Integer amountPaid) {
-        this.amountPaid = amountPaid;
-    }
-
-    public String getPaymentReference() {
-        return paymentReference;
-    }
-
-    public void setPaymentReference(String paymentReference) {
-        this.paymentReference = paymentReference;
-    }
-
-    public Object getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(Object paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public String getRedeemCode() {
-        return redeemCode;
-    }
-
-    public void setRedeemCode(String redeemCode) {
-        this.redeemCode = redeemCode;
-    }
-
-    public Object getRedeemStatus() {
-        return redeemStatus;
-    }
-
-    public void setRedeemStatus(Object redeemStatus) {
-        this.redeemStatus = redeemStatus;
-    }
-
-    public Date getRedeemedAt() {
-        return redeemedAt;
-    }
-
-    public void setRedeemedAt(Date redeemedAt) {
-        this.redeemedAt = redeemedAt;
-    }
-
-    public Object getRefundStatus() {
-        return refundStatus;
-    }
-
-    public void setRefundStatus(Object refundStatus) {
-        this.refundStatus = refundStatus;
-    }
-
-    public String getRefundReason() {
-        return refundReason;
-    }
-
-    public void setRefundReason(String refundReason) {
-        this.refundReason = refundReason;
-    }
-
-    public String getAfterSaleNote() {
-        return afterSaleNote;
-    }
-
-    public void setAfterSaleNote(String afterSaleNote) {
-        this.afterSaleNote = afterSaleNote;
-    }
-
-    public String getUsageWindow() {
-        return usageWindow;
-    }
-
-    public void setUsageWindow(String usageWindow) {
-        this.usageWindow = usageWindow;
-    }
-
-    public String getUsageRule() {
-        return usageRule;
-    }
-
-    public void setUsageRule(String usageRule) {
-        this.usageRule = usageRule;
-    }
-
-    public Object getPackageSnapshot() {
-        return packageSnapshot;
-    }
-
-    public void setPackageSnapshot(Object packageSnapshot) {
-        this.packageSnapshot = packageSnapshot;
-    }
-
-    public Date getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(Date expiresAt) {
-        this.expiresAt = expiresAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-

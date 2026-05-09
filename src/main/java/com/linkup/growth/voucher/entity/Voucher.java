@@ -1,20 +1,31 @@
 package com.linkup.growth.voucher.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.growth.voucher.enums.VoucherSource;
+import com.linkup.growth.voucher.enums.VoucherStatus;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName voucher
+ * 优惠券。
+ *
+ * <p>对应数据库表 voucher。</p>
  */
-@TableName(value ="voucher")
+@Data
+@TableName(value = "voucher", autoResultMap = true)
 public class Voucher implements Serializable {
-    private Object id;
 
-    private Object userId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
+
+    private UUID userId;
 
     private Integer amount;
 
@@ -24,106 +35,18 @@ public class Voucher implements Serializable {
 
     private String subtitle;
 
-    private Object source;
+    @TableField(value = "source", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private VoucherSource source;
 
-    private Object status;
+    @TableField(value = "status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private VoucherStatus status;
 
-    private Date expiresAt;
+    private OffsetDateTime expiresAt;
 
-    private Date usedAt;
+    private OffsetDateTime usedAt;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Object userId) {
-        this.userId = userId;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getRule() {
-        return rule;
-    }
-
-    public void setRule(String rule) {
-        this.rule = rule;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public Object getSource() {
-        return source;
-    }
-
-    public void setSource(Object source) {
-        this.source = source;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public Date getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(Date expiresAt) {
-        this.expiresAt = expiresAt;
-    }
-
-    public Date getUsedAt() {
-        return usedAt;
-    }
-
-    public void setUsedAt(Date usedAt) {
-        this.usedAt = usedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-

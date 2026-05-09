@@ -1,99 +1,44 @@
 package com.linkup.growth.invite.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.growth.invite.enums.InviteStatus;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName invite_record
+ * 邀请记录。
+ *
+ * <p>对应数据库表 invite_record。</p>
  */
-@TableName(value ="invite_record")
+@Data
+@TableName(value = "invite_record", autoResultMap = true)
 public class InviteRecord implements Serializable {
-    private Object id;
 
-    private Object inviterId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
-    private Object inviteeId;
+    private UUID inviterId;
 
-    private Object status;
+    private UUID inviteeId;
 
-    private Object inviteeFirstOrderId;
+    @TableField(value = "status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private InviteStatus status;
+
+    private UUID inviteeFirstOrderId;
 
     private Integer rewardAmount;
 
-    private Date rewardedAt;
+    private OffsetDateTime rewardedAt;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getInviterId() {
-        return inviterId;
-    }
-
-    public void setInviterId(Object inviterId) {
-        this.inviterId = inviterId;
-    }
-
-    public Object getInviteeId() {
-        return inviteeId;
-    }
-
-    public void setInviteeId(Object inviteeId) {
-        this.inviteeId = inviteeId;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public Object getInviteeFirstOrderId() {
-        return inviteeFirstOrderId;
-    }
-
-    public void setInviteeFirstOrderId(Object inviteeFirstOrderId) {
-        this.inviteeFirstOrderId = inviteeFirstOrderId;
-    }
-
-    public Integer getRewardAmount() {
-        return rewardAmount;
-    }
-
-    public void setRewardAmount(Integer rewardAmount) {
-        this.rewardAmount = rewardAmount;
-    }
-
-    public Date getRewardedAt() {
-        return rewardedAt;
-    }
-
-    public void setRewardedAt(Date rewardedAt) {
-        this.rewardedAt = rewardedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-

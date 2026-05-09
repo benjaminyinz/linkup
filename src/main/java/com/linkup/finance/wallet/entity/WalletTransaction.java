@@ -1,109 +1,50 @@
 package com.linkup.finance.wallet.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linkup.finance.wallet.enums.WalletRefType;
+import com.linkup.finance.wallet.enums.WalletTxStatus;
+import com.linkup.finance.wallet.enums.WalletTxType;
+import com.linkup.infrastructure.typehandler.PostgreSQLEnumTypeHandler;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.Data;
 
 /**
- * @TableName wallet_transaction
+ * 钱包流水。
+ *
+ * <p>对应数据库表 wallet_transaction。</p>
  */
-@TableName(value ="wallet_transaction")
+@Data
+@TableName(value = "wallet_transaction", autoResultMap = true)
 public class WalletTransaction implements Serializable {
-    private Object id;
 
-    private Object userId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private UUID id;
 
-    private Object type;
+    private UUID userId;
+
+    @TableField(value = "type", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private WalletTxType type;
 
     private Integer amount;
 
-    private Object referenceId;
+    private UUID referenceId;
 
-    private Object referenceType;
+    @TableField(value = "reference_type", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private WalletRefType referenceType;
 
-    private Object status;
+    @TableField(value = "status", typeHandler = PostgreSQLEnumTypeHandler.class)
+    private WalletTxStatus status;
 
     private String note;
 
-    private Date createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private OffsetDateTime createdAt;
 
     private static final long serialVersionUID = 1L;
-
-    public Object getId() {
-        return id;
-    }
-
-    public void setId(Object id) {
-        this.id = id;
-    }
-
-    public Object getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Object userId) {
-        this.userId = userId;
-    }
-
-    public Object getType() {
-        return type;
-    }
-
-    public void setType(Object type) {
-        this.type = type;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public Object getReferenceId() {
-        return referenceId;
-    }
-
-    public void setReferenceId(Object referenceId) {
-        this.referenceId = referenceId;
-    }
-
-    public Object getReferenceType() {
-        return referenceType;
-    }
-
-    public void setReferenceType(Object referenceType) {
-        this.referenceType = referenceType;
-    }
-
-    public Object getStatus() {
-        return status;
-    }
-
-    public void setStatus(Object status) {
-        this.status = status;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
-
-
-
