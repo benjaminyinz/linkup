@@ -8,6 +8,9 @@ target/
 .env.*
 !.env.example
 
+### Claude Code worktrees / 元数据 ###
+.claude/
+
 ### Logs ###
 logs/
 *.log

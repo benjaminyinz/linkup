@@ -1,0 +1,16 @@
+# 集成测试 profile：数据源 / Redis 由 BaseIntegrationTest 通过 @DynamicPropertySource 动态注入。
+# 这里只放与容器无关的覆盖项。
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+linkup:
+  jwt:
+    secret: test-only-jwt-secret-do-not-use-in-prod-1234567890
