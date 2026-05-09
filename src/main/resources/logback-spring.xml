@@ -4,9 +4,13 @@
     <!--
       日志配置说明：
       - 开发环境：彩色控制台，便于本地调试
-      - 生产环境：JSON 格式 + 文件滚动，便于日志收集系统采集
+      - 生产环境：文件滚动 + 控制台，便于日志收集系统采集
       - pattern 中的 %X{traceId} 由 TraceIdFilter 写入 MDC，串联同一请求的所有日志
+      - 必须 include Spring Boot defaults.xml，才能识别 %clr / %wEx 等自定义转换词，
+        否则启动期 Logback 会因找不到 conversion class 抛 IllegalStateException
     -->
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property name="LOG_PATH" value="${LOG_PATH:-./logs}"/>
     <property name="APP_NAME" value="linkup"/>
