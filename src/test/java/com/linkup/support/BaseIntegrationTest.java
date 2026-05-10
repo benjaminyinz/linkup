@@ -12,7 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 /**
  * 集成测试基类。
  *
- * <p>所有需要数据库 / Redis 的测试继承本类即可，自动启动 PostgreSQL 16 + Redis 7 两个容器，
+ * <p>所有需要数据库 / Redis 的测试继承本类即可，自动启动 PostgreSQL 16 + Redis 8.2 两个容器，
  * 并把连接信息注入 Spring 环境，应用启动时 Flyway 自动跑 V*__*.sql。</p>
  *
  * <p>容器在所有测试用例间复用（static），避免每个测试都启停一遍；
@@ -33,7 +33,7 @@ public abstract class BaseIntegrationTest {
 
     @SuppressWarnings({"resource", "rawtypes"})
     private static final GenericContainer REDIS =
-            new GenericContainer<>(DockerImageName.parse("redis:7-alpine"))
+            new GenericContainer<>(DockerImageName.parse("redis:8.2-alpine"))
                     .withExposedPorts(6379)
                     .withReuse(true);
 
